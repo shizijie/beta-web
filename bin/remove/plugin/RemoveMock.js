@@ -116,7 +116,7 @@ execCommand('npm uninstall --save mockjs','移除 mockjs package成功')
   	() => {
   	log(chalk.green('移除 Mock.js 插件成功'))
   	log(chalk.yellow('请更下如下文件为api实际地址'))
-  	log(chalk.yellow("src/api/login.js:9   url: '/login/loginbyemail'"))
+  	log(chalk.yellow("src/api/login.js:9   url: '/login/login'"))
   	log(chalk.yellow("src/api/login.js:17   url: '/login/logout"))
   	log(chalk.yellow("src/api/login.js:24   url: '/user/info'"))
   }

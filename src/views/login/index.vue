@@ -28,15 +28,15 @@
       name: 'login',
       data() {
         const validateEmail = (rule, value, callback) => {
-          if (!isWscnEmail(value)) {
-            callback(new Error('请输入正确的合法邮箱'));
+          if (value.length==0) {
+            callback(new Error('帐号不能为空'));
           } else {
             callback();
           }
         };
         const validatePass = (rule, value, callback) => {
-          if (value.length < 6) {
-            callback(new Error('密码不能小于6位'));
+          if (value.length ===0) {
+            callback(new Error('密码不能为空'));
           } else {
             callback();
           }
@@ -115,7 +115,7 @@ animate();
           this.$refs.loginForm.validate(valid => {
             if (valid) {
               this.loading = true;
-              this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
+              this.$store.dispatch('Login', this.loginForm).then(() => {
                 this.$Message.success('登录成功');
                 
                 this.loading = false;
@@ -125,7 +125,6 @@ animate();
                 this.loading = false;
               });
             } else {
-              console.log('error submit!!');
               return false;
             }
           });

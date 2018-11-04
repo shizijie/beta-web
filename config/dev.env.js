@@ -1,5 +1,5 @@
 module.exports = {
     NODE_ENV: '"development"',
-    BASE_API: '"https://api-dev"',
-    APP_ORIGIN: '"https://wz.com"'
+    BASE_API: '"http://127.0.0.1:8081"',
+    APP_ORIGIN: '"https://shizijie.com"'
 }

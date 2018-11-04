@@ -1,4 +1,4 @@
-import { loginByEmail, logout, getInfo } from 'api/login';
+import { login, logout, getInfo } from 'api/login';
 import Cookies from 'js-cookie';
 
 const user = {
@@ -62,17 +62,23 @@ const user = {
   },
 
   actions: {
-    // 邮箱登录
-    LoginByEmail({ commit }, userInfo) {
+    // 帐号登录
+    Login({ commit }, userInfo) {
       const email = userInfo.email.trim();
       return new Promise((resolve, reject) => {
-        loginByEmail(email, userInfo.password).then(response => {
+        login(email, userInfo.password).then(response => {
           const data = response.data;
-          console.log(response.data);
-          Cookies.set('Admin-Token', response.data.token);
-          commit('SET_TOKEN', data.token);
-          commit('SET_EMAIL', email);
-          resolve();
+          if(data.result.code=='000000'){
+            console.log('store-----------------')
+            window.localStorage['BETA_TOKEN']=response.data.result.token
+          }else{
+
+          }
+          // return
+          // Cookies.set('Admin-Token', response.data.token);
+          // commit('SET_TOKEN', data.token);
+          // commit('SET_EMAIL', email);
+          // resolve();
         }).catch(error => {
           reject(error);
         });

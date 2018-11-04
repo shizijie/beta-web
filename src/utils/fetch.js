@@ -2,16 +2,21 @@ import axios from 'axios';
 import store from '../store';
 import vue from 'vue';
 // import router from '../router';
-
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
-  timeout: 5000                  // 请求超时时间
+  timeout: 5000,                  // 请求超时时间
+  headers:{
+    'Content-Type':'application/json;charset=UTF-8'
+  }
 });
 
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
+  if(window.localStorage['BETA_TOKEN']){
+    config.headers.token=window.localStorage['BETA_TOKEN']
+  }
   return config;
 }, error => {
   // Do something with request error
