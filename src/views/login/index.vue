@@ -116,6 +116,7 @@ animate();
             if (valid) {
               this.loading = true;
               this.$store.dispatch('Login', this.loginForm).then(() => {
+                console.log(111111111111)
                 this.$Message.success('登录成功');
                 
                 this.loading = false;

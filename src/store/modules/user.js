@@ -68,8 +68,8 @@ const user = {
       return new Promise((resolve, reject) => {
         login(email, userInfo.password).then(response => {
           const data = response.data;
+          console.log('store-----------------')
           if(data.result.code=='000000'){
-            console.log('store-----------------')
             window.localStorage['BETA_TOKEN']=response.data.result.token
           }else{
 
