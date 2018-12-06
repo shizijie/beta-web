@@ -22,7 +22,6 @@
 </template>
 
 <script>
-    import { isWscnEmail } from 'utils/validate';
 
     export default {
       name: 'login',
@@ -121,10 +120,6 @@ animate();
                 
                 this.loading = false;
                 this.$router.push({ path: '/' });
-              }).catch(err => {
-                console.log(err)
-                this.$Message.error(err);
-                this.loading = false;
               });
             } else {
               return false;

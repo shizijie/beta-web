@@ -1,6 +1,8 @@
 import axios from 'axios';
 import store from '../store';
 import vue from 'vue';
+import Message from 'element-ui'
+
 // import router from '../router';
 // 创建axios实例
 const service = axios.create({
@@ -56,7 +58,9 @@ service.interceptors.response.use(
       if(response.data&&response.data.code==='200'){
         return response.data
       }else{
-        vue.$Message.error(response.data.msg)
+        console.log(response.data.msg)
+        this.$Message.error(response.data.msg)
+        //vue.$Message.error(response.data.msg)
         return
       }
     }

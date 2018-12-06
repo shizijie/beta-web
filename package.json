@@ -16,6 +16,7 @@
     "async-validator": "^1.7.1",
     "axios": "0.16.2",
     "deepmerge": "^1.5.0",
+    "element-ui": "^2.4.11",
     "iview": "^2.3.0",
     "jquery": "3.1.1",
     "js-cookie": "2.1.4",
