@@ -1,7 +1,6 @@
 import fetch from 'utils/fetch';
 
 export function login(userName, password) {
-  console.log('api-----------')
   const data = {
     userName,
     password
