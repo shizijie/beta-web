@@ -1,25 +1,26 @@
 import axios from 'axios';
 import store from '../store';
 import vue from 'vue';
-import Message from 'element-ui'
+import { Message } from 'element-ui'
+
 
 // import router from '../router';
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 5000,                  // 请求超时时间
-  headers:{
-    'Content-Type':'application/json;charset=UTF-8'
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8'
   }
 });
 
 let panding = []
-let Cancel =axios.CancelToken
+let Cancel = axios.CancelToken
 let removePending = (config) => {
-  for(let p in pending){
-    if(pending[p].u === config.url + '&' +config.method){
+  for (let p in pending) {
+    if (pending[p].u === config.url + '&' + config.method) {
       pending[p].f()
-      pending.splice(p,1)
+      pending.splice(p, 1)
     }
   }
 }
@@ -27,8 +28,8 @@ let removePending = (config) => {
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  if(window.localStorage['BETA_TOKEN']){
-    config.headers.token=window.localStorage['BETA_TOKEN']
+  if (window.localStorage['BETA_TOKEN']) {
+    config.headers.token = window.localStorage['BETA_TOKEN']
   }
   return config;
 }, error => {
@@ -42,11 +43,11 @@ service.interceptors.response.use(
   response => response,
   error => {
     console.log('err' + error);// for debug
-    vue.$Message.error({
-                    message: error.message,
-                    duration: 5 * 1000,
-                    closable: true
-                });
+    Message.error({
+      message: error.message,
+      duration: 5 * 1000,
+      closable: true
+    });
     return Promise.reject(error);
   }
 )
@@ -54,34 +55,33 @@ service.interceptors.response.use(
   response => {
     //removePending(response.config)
     console.log(response.data)
-    if(response&&response.status===200){
-      if(response.data&&response.data.code==='200'){
+    if (response && response.status === 200) {
+      if (response.data && response.data.code === '200') {
+        Message.success('1')
         return response.data
-      }else{
-        console.log(response.data.msg)
-        this.$Message.error(response.data.msg)
+      } else {
+        Message.error(response.data.msg)
         //vue.$Message.error(response.data.msg)
-        return
+        return response
       }
     }
-    Message.error("请求失败，请稍后再试.");
   },
   error => {
-    if(error && error.response && error.response.status && error.response.status ===401){
+    if (error && error.response && error.response.status && error.response.status === 401) {
       Message.error("用户登录信息已过期，请重新登录")
       window.localStorage.clear()
-      setTimeout(()=>{
-        appRouter.replace({path:'/login'})
-      },2500)
+      setTimeout(() => {
+        appRouter.replace({ path: '/login' })
+      }, 2500)
       return
-    }else if(error && error.response && error.response.status && error.response.status ===403){
+    } else if (error && error.response && error.response.status && error.response.status === 403) {
       Message.error("尚未授权此操作")
       return
-    }else if(error && error.response && error.response.status && error.response.status ===504){
+    } else if (error && error.response && error.response.status && error.response.status === 504) {
       Message.error("连接服务器超时，请稍后再试")
       return
     }
-    return {data:{}}
+    return { data: {} }
   }
 )
 

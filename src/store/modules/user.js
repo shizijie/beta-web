@@ -67,13 +67,14 @@ const user = {
       const email = userInfo.email.trim();
       return new Promise((resolve, reject) => {
         login(email, userInfo.password).then(response => {
-          const data = response.data;
-          window.localStorage['BETA_TOKEN']=data.result.token
+          // const data = response.data;
+          // window.localStorage['BETA_TOKEN']=data.result.token
           // return
           // Cookies.set('Admin-Token', response.data.token);
           // commit('SET_TOKEN', data.token);
           // commit('SET_EMAIL', email);
           // resolve();
+          resolve()
         });
       });
     },
