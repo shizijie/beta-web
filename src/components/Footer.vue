@@ -1,7 +1,8 @@
 <template>
   <footer class="app-footer">
-    <a >WZ</a> &copy; 2017 creativeLabs.
-    <span class="float-right">Powered by <a href="http://coreui.io">WZ</a></span>
+    <center>
+    <a >shizijie</a> 
+    </center>
   </footer>
 </template>
 <script>

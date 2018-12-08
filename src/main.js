@@ -3,8 +3,9 @@ import App from './App';
 import router from './router';
 import store from './store';
 import './mock/index.js';  // 该项目所有请求使用mockjs模拟
-import './login.js' 
+//import './login.js' 
 import './ui.js' 
+import './utils/filter'
 
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -12,6 +13,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 // import ElementUI from 'element-ui';
 
 // Vue.use(ElementUI);
+
+// router.beforeEach((to, from, next) => {
+//   next()
+// })
 
 Vue.config.productionTip = false;
 var vm=new Vue({

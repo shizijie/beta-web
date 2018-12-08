@@ -3,6 +3,7 @@
       name: 'authredirect',
       created() {
         const hash = window.location.search.slice(1);
+        console.log("hash:"+hash)
         window.opener.location.href = window.location.origin + '/login#' + hash;
         window.close();
       }

@@ -1,7 +1,6 @@
 <template>
-  <div class="login-container" style="background-color: #141a48;margin: 0px;overflow: hidden;">
+  <div class="login-container" :style ="note">
     <div id="canvascontainer" ref="can"></div>
-
     <Form
       ref="loginForm"
       autocomplete="on"
@@ -28,7 +27,6 @@
         <Button type="primary" @click="handleLogin('loginForm')" long>登录</Button>
       </Form-item>
     </Form>
-    
   </div>
 </template>
 
@@ -62,13 +60,19 @@ export default {
         password: [{ required: true, trigger: "blur", validator: validatePass }]
       },
       loading: false,
-      showDialog: false
+      showDialog: false,
+      note: {
+        backgroundImage: "url(" + require("@/img/timg.jpg") + ")",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100%",
+        marginTop: "5px"
+      }
     };
   },
   mounted() {
+    // console.log(this.$router)
     // container = document.createElement("div");
     // this.$refs.can.appendChild(container);
-
     // camera = new THREE.PerspectiveCamera(
     //   75,
     //   window.innerWidth / window.innerHeight,
@@ -76,11 +80,8 @@ export default {
     //   10000
     // );
     // camera.position.z = 1000;
-
     // scene = new THREE.Scene();
-
     // particles = new Array();
-
     // var PI2 = Math.PI * 2;
     // var material = new THREE.ParticleCanvasMaterial({
     //   color: 0x0078de,
@@ -90,9 +91,7 @@ export default {
     //     context.fill();
     //   }
     // });
-
     // var i = 0;
-
     // for (var ix = 0; ix < AMOUNTX; ix++) {
     //   for (var iy = 0; iy < AMOUNTY; iy++) {
     //     particle = particles[i++] = new THREE.Particle(material);
@@ -101,44 +100,38 @@ export default {
     //     scene.add(particle);
     //   }
     // }
-
     // renderer = new THREE.CanvasRenderer();
     // renderer.setSize(window.innerWidth, window.innerHeight);
     // container.appendChild(renderer.domElement);
-
     // document.addEventListener("mousemove", onDocumentMouseMove, false);
     // //
-
     // window.addEventListener("resize", onWindowResize, false);
-
     // animate();
   },
   methods: {
     handleLogin() {
-      // this.$refs.loginForm.validate(valid => {
-      //   if (valid) {
-      //     debugger
-      //     this.loading = true;
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true;
           method
             .login(this.loginForm.email, this.loginForm.password)
-            .then(res => {
+            .then(({ code, result, msg }) => {
+              if (result) {
+                this.$store.dispatch("saveToken", result.token).then(() => {
+                  this.$router.push({
+                    name: "test",
+                    query: {
+                      name: "asds"
+                    }
+                  });
+                });
+              }
+            })
+            .catch(err => {
+              this.loading = false;
             });
-          // this.$store.dispatch('Login', this.loginForm).then(() => {
-          //   console.log(111111111111)
-          //   // this.$Message.success('登录成功');
-
-          //   this.loading = false;
-          //   this.$router.push({ path: '/' });
-          // }).catch(err => {
-          //   debugger
-          //   console.log(err)
-          //   this.$message.error(err);
-          //   this.loading = false;
-          // });
-      //   } else {
-      //     return false;
-      //   }
-      // });
+        }
+      });
     }
   }
 };

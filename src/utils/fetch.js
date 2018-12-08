@@ -2,9 +2,10 @@ import axios from 'axios';
 import store from '../store';
 import vue from 'vue';
 import { Message } from 'element-ui'
+import { getToken } from '../utils/user'
+import router from '../router'
 
 
-// import router from '../router';
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
@@ -28,50 +29,46 @@ let removePending = (config) => {
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  if (window.localStorage['BETA_TOKEN']) {
-    config.headers.token = window.localStorage['BETA_TOKEN']
+  if (getToken()) {
+    config.headers.token = getToken()
   }
   return config;
 }, error => {
   // Do something with request error
-  console.log(error); // for debug
   Promise.reject(error);
 })
 
 // respone拦截器
-service.interceptors.response.use(
-  response => response,
-  error => {
-    console.log('err' + error);// for debug
-    Message.error({
-      message: error.message,
-      duration: 5 * 1000,
-      closable: true
-    });
-    return Promise.reject(error);
-  }
-)
+// service.interceptors.response.use(
+//   response => response,
+//   error => {
+//     console.log('err' + error);// for debug
+//     Message.error({
+//       message: error.message,
+//       duration: 5 * 1000,
+//       closable: true
+//     });
+//     return Promise.reject(error);
+//   }
+// )
 service.interceptors.response.use(
   response => {
-    //removePending(response.config)
-    console.log(response.data)
     if (response && response.status === 200) {
       if (response.data && response.data.code === '200') {
-        Message.success('1')
         return response.data
       } else {
         Message.error(response.data.msg)
-        //vue.$Message.error(response.data.msg)
-        return response
+        return
       }
     }
+    Message.error("请求失败，请稍后重试")
   },
   error => {
     if (error && error.response && error.response.status && error.response.status === 401) {
       Message.error("用户登录信息已过期，请重新登录")
       window.localStorage.clear()
       setTimeout(() => {
-        appRouter.replace({ path: '/login' })
+        router.replace({ path: '/login' })
       }, 2500)
       return
     } else if (error && error.response && error.response.status && error.response.status === 403) {

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <nav class="sidebar-nav">
-      <sidebar-item :routes='siderbar_routers.children'></sidebar-item>
+      <!-- <sidebar-item :routes='siderbar_routers.children'></sidebar-item> -->
 
     </nav>
   </div>
@@ -14,7 +14,7 @@ export default {
   components: { SidebarItem },
       computed: {
         ...mapGetters([
-          'siderbar_routers'
+          //'siderbar_routers'
         ])
       },
   methods: {

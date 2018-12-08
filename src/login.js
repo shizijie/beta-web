@@ -3,6 +3,8 @@ import store from './store'
 import vue from 'vue'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
+import { getToken } from './utils/user'
+
 
 // permissiom judge
 function hasPermission(roles, permissionRoles) {
@@ -14,8 +16,10 @@ function hasPermission(roles, permissionRoles) {
 // register global progress.
 const whiteList = ['/login', '/authredirect']// 不重定向白名单
 router.beforeEach((to, from, next) => {
-  NProgress.start() // 开启Progress
-  if (store.getters.token) { // 判断是否有token
+  //NProgress.start() // 开启Progress
+  console.log(store)
+  console.log(getToken())
+  if (getToken()) { // 判断是否有token
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
@@ -27,14 +31,14 @@ router.beforeEach((to, from, next) => {
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to }) // hack方法 确保addRoutes已完成
           })
-          
+
         }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
             next({ path: '/login' })
           })
         })
       } else {
-        
+
         store.dispatch('getNowRoutes', to);
 
         if (hasPermission(store.getters.roles, to.meta.role)) {
@@ -42,7 +46,7 @@ router.beforeEach((to, from, next) => {
 
           console.log("has userinfo")
         } else {
-          next({ path: '/', query: { noGoBack: true }})
+          next({ path: '/', query: { noGoBack: true } })
         }
       }
     }

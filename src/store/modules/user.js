@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from 'api/login';
 import Cookies from 'js-cookie';
 
+
 const user = {
   state: {
     user: '',
@@ -62,24 +63,6 @@ const user = {
   },
 
   actions: {
-    // 帐号登录
-    Login({ commit }, userInfo) {
-      const email = userInfo.email.trim();
-      return new Promise((resolve, reject) => {
-        login(email, userInfo.password).then(response => {
-          // const data = response.data;
-          // window.localStorage['BETA_TOKEN']=data.result.token
-          // return
-          // Cookies.set('Admin-Token', response.data.token);
-          // commit('SET_TOKEN', data.token);
-          // commit('SET_EMAIL', email);
-          // resolve();
-          resolve()
-        });
-      });
-    },
-
-
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
